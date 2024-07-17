@@ -1,0 +1,25 @@
+.home-page {
+    background-image: url('./library.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .home-page h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    ;
+  }
+  
+  .home-page p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }

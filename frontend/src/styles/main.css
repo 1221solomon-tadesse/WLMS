@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap");
 
+	.navbar-brand {
+		display: flex;
+		align-items: center;
+		background-image: url('./logo.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: left center;
+		padding-left: 2.5rem;
+		font-weight: bold;
+		width: 40px;
+		height: 40px;
+	  }
+	  
+
 * {
 	padding: 0;
 	margin: 0;
@@ -50,6 +64,7 @@ header div,
 nav {
 	display: flex;
 	align-items: center;
+
 }
 
 @media only screen and (max-width: 1024px) {
@@ -86,4 +101,25 @@ nav {
 	nav a {
 		font-size: 1.5rem;
 	}
+	
 }
+.search-input {
+	width: 200px;
+	border-radius: 20px;
+	padding: 0.5rem 1rem;
+	border: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-button {
+	border-radius: 20px;
+	padding: 0.5rem 1rem;
+	background-color: #6c757d;
+	border: none;
+	color: #fff;
+	transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+	background-color: #5a6268;
+  }
