@@ -1,0 +1,24 @@
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+  }
+  
+  .footer-content {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .footer-content p {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .footer-bottom p {
+    margin-bottom: 0;
+  }
