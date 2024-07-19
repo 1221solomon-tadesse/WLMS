@@ -3,7 +3,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import "../styles/main.css";
 function Navbar() {
 	const navRef = useRef();
-
 	const showNavbar = () => {
 		navRef.current.classList.toggle(
 			"responsive_nav"
@@ -19,13 +18,13 @@ function Navbar() {
 				<a href="/AddBooks">Add Books</a>
 				<a href="/#">About me</a>
                 <form className='form-inline my-2 my-lg-0 d-flex justify-content-end'>
-				<div class="search-container">
+				<div className="search-container">
       <input
         type="text"
-        class="search-input"
+        className="search-input"
         placeholder="Search"
       />
-      <button type="submit" class="search-button">
+      <button type="submit" className="search-button">
         Search
       </button>
     </div>
