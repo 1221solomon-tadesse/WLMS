@@ -9,7 +9,8 @@ function Navbar() {
 		);
 	};
 	return (
-		<header className="sticky-top">
+		<div className="sticky-top" >
+		<header >
  <div className="navbar-brand ">
         </div>
 			<nav ref={navRef}>
@@ -42,6 +43,7 @@ function Navbar() {
 				<FaBars />
 			</button>
 		</header>
+		</div>
 	);
 }
 

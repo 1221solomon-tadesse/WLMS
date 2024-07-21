@@ -30,7 +30,7 @@ const Books = () => {
     fetchData();
   }, []);
   return (
-    <>
+    <div className='main'>
       <div className="book-section">
         <div className="container">
           <div className="book-section-title">
@@ -47,7 +47,7 @@ const Books = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

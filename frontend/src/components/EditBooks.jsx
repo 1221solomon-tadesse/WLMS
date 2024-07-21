@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import '../styles/AddBook.css'
+import React, { useState, useEffect } from 'react'
+import '../styles/AddBooks.css'
 import axios from 'axios'
 
-const AddBooks = () => {
+const EditBooks = ({ match }) => {
   const [data, setData] = useState({
     bookname: "",
     author: "",
@@ -10,6 +10,18 @@ const AddBooks = () => {
     image: "",
     price: ""
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:1000/api/v1/getBooks/${match.params.id}`);
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [match.params.id]);
 
   const handleInputChange = (event) => {
     setData({
@@ -21,18 +33,11 @@ const AddBooks = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:1000/api/v1/add', data);
-      setData({
-        bookname: "",
-        author: "",
-        description: "",
-        image: "",
-        price: ""
-      });
-      alert("Book added successfully!");
+      await axios.put(`http://localhost:1000/api/v1/updateBooks/${match.params.id}`, data);
+      alert("Book updated successfully!");
     } catch (error) {
       console.error(error);
-      alert("Error adding book!");
+      alert("Error updating book!");
     }
   }
 
@@ -60,11 +65,11 @@ const AddBooks = () => {
             <label className="form-label">Price</label>
             <input type="number" className="form-control" name="price" value={data.price} onChange={handleInputChange} placeholder="Enter the price of the book" />
           </div>
-          <button type="submit" className="btn btn-primary mt-3">Save</button>
+          <button type="submit" className="btn btn-primary mt-3">Update</button>
         </form>
       </div>
     </div>
   )
 }
 
-export default AddBooks
+export default EditBooks
