@@ -4,30 +4,16 @@ import axios from 'axios';
 
 const BooksSection = ({ data, isLoading }) => {
   // Function to handle delete action
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm('Are you sure you want to delete this book?');
-    if (confirmed) {
-      try {
-        const response = await axios.delete(`http://localhost:3000/api/v1/deleteBook/${id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
   
-        if (response.status === 201) {
-          alert(response.data.message);
-          // Update the UI or state as needed
-          window.location.reload();
-        } else {
-          alert(`Failed to delete the book: ${response.data.error || 'Unknown error'}`);
-        }
-      } catch (error) {
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/v1/deleteBook/${id}`);
+      window.location.reload();
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error('Book not found. Unable to delete.');
+      } else {
         console.error('Error deleting the book:', error);
-        if (error.response && error.response.data && error.response.data.error) {
-          alert(`Error deleting the book: ${error.response.data.error}`);
-        } else {
-          alert('An unknown error occurred while deleting the book. Please try again later.');
-        }
       }
     }
   };
@@ -72,9 +58,9 @@ const BooksSection = ({ data, isLoading }) => {
                 Update
               </a>
               <button
-                onClick={() => handleDelete(book._id)}
+                onClick={() => handleDelete(book.id)}
                 className="btn btn-danger delete-btn"
-                style={{ color: '#47b5ff', padding: '0.5rem 1rem', border: 'none', background: 'transparent', cursor: 'pointer' }}>
+                style={{ color: 'rgb(242,100,100)', padding: '0.5rem 1rem', border: 'none', background: 'rgb(245,191,191)', cursor: 'pointer' }}>
                 Delete
               </button>
             </div>
