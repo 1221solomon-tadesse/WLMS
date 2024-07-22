@@ -52,12 +52,21 @@ const BooksSection = ({ data, isLoading }) => {
               <p className="price">${book.price}</p>
             </div>
             <div className="button-group">
-              <a
-                href={`/books/${book.id}/edit`}
-                style={{ textDecoration: 'none', borderRadius: '0.25rem', backgroundColor: '#3A9DAB', color: '#fff', padding: '0.5rem 1rem' }}>
-                Update
-              </a>
-              <button
+           
+  <a
+    href={`/Update/${book.id}`}
+    style={{
+      textDecoration: 'none',
+      borderRadius: '0.25rem',
+      backgroundColor: '#3A9DAB',
+      color: '#fff',
+      padding: '0.5rem 1rem',
+    }}
+  >
+    Update
+  </a>
+
+    <button
                 onClick={() => handleDelete(book.id)}
                 className="btn btn-danger delete-btn"
                 style={{ color: 'rgb(242,100,100)', padding: '0.5rem 1rem', border: 'none', background: 'rgb(245,191,191)', cursor: 'pointer' }}>
@@ -71,4 +80,4 @@ const BooksSection = ({ data, isLoading }) => {
   );
 };
 
-export default BooksSection;
+export default BooksSection; 

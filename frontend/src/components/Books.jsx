@@ -2,7 +2,7 @@ import React from 'react'
 import '../styles/Books.css'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import BooksSection from './BooksSection';
+import BooksSection from './BookSesion';
 
 const Books = () => {
   const [data, setData] = useState([]);
