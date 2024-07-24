@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{useState}from 'react';
 import '../styles/bookSection.css';
-//import axios from 'axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BooksSection = ({ data, isLoading }) => {
@@ -10,21 +10,20 @@ const BooksSection = ({ data, isLoading }) => {
   const handleUpdate = (id) => {
     navigate(`/Update/${id}`);
   };
-
-  // Function to handle delete action
-  // const handleDelete = async (bookname) => {
-  //   try {
-  //     await axios.delete(`http://localhost:3000/api/v1/deleteBook/${bookname}`);
-  //     window.location.reload();
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 404) {
-  //       console.error('Book not found. Unable to delete.');
-  //     } else {
-  //       console.error('Error deleting the book:', error);
-  //     }
-  //   }
-  // };
-
+  const [books, setBooks] = useState([]);
+  const handleDelete = async (id) => {
+    console.log('Attempting to delete book with ID:', id);
+    try {
+      await axios.delete(`http://localhost:1000/api/v1/deleteBook/${id}`);
+      console.log('Book deleted successfully');
+  
+      // Update the state to remove the deleted book
+      setBooks(books.filter((book) => book._id !== id));
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  
   if (isLoading) {
     return (
       <div className="books-section loading">
@@ -43,6 +42,7 @@ const BooksSection = ({ data, isLoading }) => {
 
   return (
     <div className="books-section">
+      
       <h2>Books</h2>
       <div className="book-grid">
         {data.map((book) => (
@@ -71,13 +71,13 @@ const BooksSection = ({ data, isLoading }) => {
               >
                 Update
               </button>
-              {/* <button
-                onClick={() => handleDelete(id)}
+              <button
+                onClick={() => handleDelete(book._id)}
                 className="btn btn-danger delete-btn"
                 style={{ color: 'rgb(242,100,100)', padding: '0.5rem 1rem', border: 'none', background: 'rgb(245,191,191)', cursor: 'pointer' }}
               >
                 Delete
-              </button> */}
+              </button>
             </div>
           </div>
         ))}

@@ -60,19 +60,17 @@ router.put("/updateBooks/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-router.delete("httphttp://localhost:1000/api/v1/deleteBook/:bookname", async (req, res) => {
-    try {
-      const { bookname } = req.params;
-      const deletedBook = await bookModel.findByIdAndDelete(bookname);
-      if (deletedBook) {
-        res.status(201).json({ message: "Book deleted successfully" });
-      } else {
-        res.status(404).json({ error: "Book not found" });
-      }
-    } catch (error) {
-      //console.error("Error deleting book:", error);
-      console.error("Error details:", error.stack);
-      res.status(500).json({ error: "An error occurred while deleting the book" });
+router.delete("/deleteBook/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedBook = await bookModel.findByIdAndDelete(id);
+    if (!deletedBook) {
+      return res.status(404).json({ message: "Book not found" });
     }
-  });
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 module.exports=router
