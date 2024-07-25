@@ -1,29 +1,29 @@
-import React,{useState}from 'react';
+import React, { useState } from 'react';
 import '../styles/bookSection.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BooksSection = ({ data, isLoading }) => {
   const navigate = useNavigate();
+  const [books, setBooks] = useState(data);
 
-  // Function to handle update action
   const handleUpdate = (id) => {
     navigate(`/Update/${id}`);
   };
-  const [books, setBooks] = useState([]);
+
   const handleDelete = async (id) => {
     console.log('Attempting to delete book with ID:', id);
     try {
       await axios.delete(`http://localhost:1000/api/v1/deleteBook/${id}`);
       console.log('Book deleted successfully');
-  
+
       // Update the state to remove the deleted book
       setBooks(books.filter((book) => book._id !== id));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-  
+
   if (isLoading) {
     return (
       <div className="books-section loading">
@@ -42,11 +42,10 @@ const BooksSection = ({ data, isLoading }) => {
 
   return (
     <div className="books-section">
-      
       <h2>Books</h2>
       <div className="book-grid">
-        {data.map((book) => (
-          <div key={book.id} className="book-card">
+        {books.map((book) => (
+          <div key={book._id} className="book-card">
             {book.image && (
               <div className="book-image">
                 <img src={book.image} alt={book.bookname} className="book-cover" />

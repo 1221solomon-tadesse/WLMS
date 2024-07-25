@@ -23,6 +23,20 @@ catch(error){
     console.log(error)
 }
 })
+router.get("/getBooks", async (req, res) => {
+	const query = req.query.query;
+
+	try {
+		// Search for books that match the query
+		const books = await bookModel.find({
+			name: new RegExp(query, 'i'),  // Assuming 'name' is the field you want to search
+		});
+		res.status(200).json({ books });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
 // Get request with ID
 router.get("/getBooks/:id", async (req, res) => {
   const { id } = req.params; // Extract id from request parameters
