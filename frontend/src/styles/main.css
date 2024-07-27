@@ -141,3 +141,24 @@ nav {
   .search-button:hover {
     background-color: #777;
   }
+  .dropdown-menu {
+	display: none;
+	position: absolute;
+	background-color: #333;
+	min-width: 160px;
+	z-index: 1;
+	padding: 0.5rem 0;
+  }
+  
+  .dropdown-menu .dropdown-item {
+	padding: 0.5rem 1rem;
+  }
+  
+  .dropdown-menu .dropdown-item a {
+	color: #fff;
+	text-decoration: none;
+  }
+  
+  .nav-item.dropdown:hover .dropdown-menu {
+	display: block;
+  }

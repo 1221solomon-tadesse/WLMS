@@ -6,15 +6,17 @@ import AddBooks from './components/AddBooks';
 import Footer from './components/Footer';
 import Update from './components/Update';
 import SearchResults from './components/SearchResult';
-import Signup from './auth/Signup';
-import Login from './auth/Login';
+import Signup from './components/auth/Signup';
+import Login from './components/auth/Login';
+import Sol from './components/Sol';
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-   <Route path='/Login' element={<Login/>}/>
-  <Route path ='/Signup'element={<Signup/>}/>
+        <Route path='/sol'element={<Sol/>}/>
+  <Route path='/Login' element={<Login/>}/>
+  <Route path='/Signup'element={<Signup/>}/>
   <Route path="/Home" element={<Home />} />
   <Route path="/Books" element={<Books />} />
   <Route path="/AddBooks" element={<AddBooks />} />

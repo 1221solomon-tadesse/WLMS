@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../styles/main.css";
+import { Link } from 'react-router-dom'
 
 function Navbar() {
 	const navRef = useRef();
@@ -19,7 +20,11 @@ function Navbar() {
 			navigate(`/search?query=${encodeURIComponent(search)}`);
 		}
 	};
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+	const toggleDropdown = () => {
+	  setIsDropdownOpen(!isDropdownOpen);
+	};
 	return (
 		<div className="sticky-top">
 			<header>
@@ -41,6 +46,21 @@ function Navbar() {
 							<button type="submit" className="search-button">
 								Search
 							</button>
+							<li className="nav-item dropdown" onClick={toggleDropdown}>
+          <Link to="#" className="dropdown-toggle">
+            Register
+          </Link>
+          {isDropdownOpen && (
+            <ul className="dropdown-menu">
+              <li className="dropdown-item">
+                <Link to="/Login">Login</Link>
+              </li>
+              <li className="dropdown-item">
+                <Link to="/Signup">Signup</Link>
+              </li>
+            </ul>
+          )}
+        </li>
 						</div>
 					</form>
 					<button className="nav-btn nav-close-btn" onClick={showNavbar}>

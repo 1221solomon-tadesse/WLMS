@@ -1,9 +1,13 @@
 const express = require("express")
 const bookRoute =require('./routes/booksRoutes')
+const signupRoute=require('./routes/signup')
+const bodyParser=require('body-parser')
 const app= express()
 const cors=require("cors")
 require("./connection/conn")
 app.use(cors())
+app.use(bodyParser.json())
+app.use('/user',signupRoute)
 app.use(express.json())
 app.use("/api/v1",bookRoute)
 app.listen(1000,()=>{
