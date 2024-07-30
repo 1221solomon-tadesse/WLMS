@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios'; // make sure to import axios
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Signup = () => {
   const [data, setData] = useState({
     name: '',
     email: '',
     password: '',
   });
-
+  const navigate = useNavigate();
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:1000/user/register', data); // pass the data object to the POST request
+      await axios.post('http://localhost:1000/user/register', data);
       setData({
         name: '',
         email: '',
         password: '',
       });
+      navigate('/login');
       alert('User registered successfully!');
     } catch (error) {
       console.error(error);
