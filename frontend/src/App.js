@@ -8,16 +8,14 @@ import Update from './components/Update';
 import SearchResults from './components/SearchResult';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
-import Sol from './components/Sol';
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path='/sol'element={<Sol/>}/>
   <Route path='/Login' element={<Login/>}/>
   <Route path='/Signup'element={<Signup/>}/>
-  <Route path="/Home" element={<Home />} />
+  <Route path="/" element={<Home />} />
   <Route path="/Books" element={<Books />} />
   <Route path="/AddBooks" element={<AddBooks />} />
   <Route path="/search" element={<SearchResults />} />

@@ -20,7 +20,7 @@ const Login = () => {
   
       // Check the user's role in the response
       if (response.data.role === 'admin') {
-        navigate('/Books');
+        navigate('/Navbar');
         alert('Admin user logged in successfully!');
       } else {
         navigate('/Home');
