@@ -30,7 +30,7 @@ function Navbar({currrent_user}) {
 			<header>
 				<div className="navbar-brand"></div>
 				<nav ref={navRef}>
-					<a href="/Home">Home</a>
+					<a href="/">Home</a>
 					<a href="/Books">Books</a>
 					<a href="/AddBooks">Add Books</a>
 					<a href="/#">About me</a>
