@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../styles/AddBook.css'
 import axios from 'axios'
 
-const AddBooks = () => {
+const AddBooks = ({currrent_user}) => {
   const [data, setData] = useState({
     bookname: "",
     author: "",
@@ -37,6 +37,7 @@ const AddBooks = () => {
   }
 
   return (
+    currrent_user==='admin'?
     <div className='main'>
       <div className="form-container mb-3">
         <form onSubmit={handleSubmit}>
@@ -63,7 +64,7 @@ const AddBooks = () => {
           <button type="submit" className="btn btn-primary mt-3">Save</button>
         </form>
       </div>
-    </div>
+    </div>:<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', }}> <div style={{ textDecoration: 'none', borderRadius: '0.25rem', backgroundColor: '#3A9DAB', color: '#fff', padding: '0.5rem 1rem', }}> <h>you are not authorized</h> </div> </div>
   )
 }
 

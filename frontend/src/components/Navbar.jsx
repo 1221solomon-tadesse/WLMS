@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../styles/main.css";
 import { Link } from 'react-router-dom'
 
-function Navbar() {
+function Navbar({currrent_user}) {
 	const navRef = useRef();
 	const [search, setSearch] = useState('');
 	const navigate = useNavigate(); // Initialize useNavigate
@@ -70,7 +70,9 @@ function Navbar() {
 				<button className="nav-btn" onClick={showNavbar}>
 					<FaBars />
 				</button>
+				{currrent_user}
 			</header>
+			
 		</div>
 	);
 }

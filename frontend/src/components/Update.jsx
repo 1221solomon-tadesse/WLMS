@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Update = () => {
+const Update = ({currrent_user}) => {
   const { id } = useParams();
  
   const [data, setData] = useState({
@@ -56,6 +56,7 @@ const Update = () => {
   }
 
   return (
+    currrent_user==='admin'?
     <div>
       <h2>Update Book</h2>
       
@@ -86,7 +87,9 @@ const Update = () => {
           </form>
         </div>
       </div>
-    </div>
+    </div>:<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', }}> <div style={{ textDecoration: 'none', borderRadius: '0.25rem', backgroundColor: '#3A9DAB', color: '#fff', padding: '0.5rem 1rem', }}> 
+      <h>you are not authorized</h> </div> </div>
+
   );
 };
 
