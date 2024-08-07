@@ -73,7 +73,7 @@ const Signup = () => {
           Sign Up
         </button>
         <p style={{ marginTop: '10px', textAlign: 'center' }}>
-          Already have an account? <Link to="/login">Sign In</Link>
+          Already have an account? <Link to="/Login">Sign In</Link>
         </p>
       </form>
     </div>

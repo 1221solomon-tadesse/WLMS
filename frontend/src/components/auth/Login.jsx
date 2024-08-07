@@ -17,11 +17,13 @@ const Login = () => {
         email: '',
         password: '',
       });
-  
+  // Save the JWT token and user role in local storage
+  localStorage.setItem('jwt_token', response.data.token);
+  localStorage.setItem('user_role', response.data.role);
       // Check the user's role in the response
       if (response.data.role === 'admin') {
         navigate('/');
-        alert('Admin user logged in successfully!');
+        alert('Admin logged in successfully!');
       } else {
         navigate('/');
         alert('User logged in successfully!');
