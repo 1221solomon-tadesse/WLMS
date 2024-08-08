@@ -56,8 +56,8 @@ const BooksSection = ({ data, isLoading }) => {
               <p>By {book.author}</p>
               <p className="description">{book.description}</p>
               <p className="price">${book.price}</p>
-            </div>
-            <div className="button-group">
+            </div> 
+            {localStorage.getItem('user_role') === 'admin' ?(<div className="button-group">
               <button
                 onClick={() => handleUpdate(book._id)}
                 style={{
@@ -77,7 +77,10 @@ const BooksSection = ({ data, isLoading }) => {
               >
                 Delete
               </button>
-            </div>
+            </div>)
+            :(<><h>cant</h>
+            </>)
+}
           </div>
         ))}
       </div>

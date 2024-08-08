@@ -21,17 +21,11 @@ function Navbar() {
     }
   };
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   // Check if the user is logged in
   const isLoggedIn = !!localStorage.getItem('token');
 
   // Check if the user is an admin
-  const isAdmin = localStorage.getItem('role') ;
+  //const isAdmin = localStorage.getItem('role')=='admin' ;
 
   return (
     <div className="sticky-top">
@@ -42,12 +36,17 @@ function Navbar() {
           {isLoggedIn && (
             <>
               <a href="/Books">Books</a>
-              {isAdmin && <a href="/AddBooks">Add Books</a>}
+              {localStorage.getItem('user_role') === 'admin' ? (<a href="/AddBooks">Add Books</a>):(
+                <></>
+              )
+              }
+              
             </>
           )}
           <a href="/#">About me</a>
+         
           <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>
-            <div className="search-container">
+            <div className="search-container"style={{marginLeft:"400px"}}>
               <input
                 type="text"
                 className="search-input"
@@ -59,31 +58,30 @@ function Navbar() {
                 Search
               </button>
               </div>
+              </form>   
               {isLoggedIn ? (
       <Logout />
     ) : (
-      <li className="nav-item dropdown" onClick={toggleDropdown} style={{ position: 'relative', marginRight: '0' }}>
-        <Link to="#" className="dropdown-toggle" style={{ color: '#fff', textDecoration: 'none' }}>
-          Register
-        </Link>
-        {isDropdownOpen && (
-          <ul className="dropdown-menu" style={{ position: 'absolute', right: 0, backgroundColor: '#333', padding: '10px', listStyle: 'none', margin: 0, zIndex: 1 }}>
-            <li className="dropdown-item">
-              <Link to="/Login" style={{ color: '#fff', textDecoration: 'none' }}>
-                Login
-              </Link>
-            </li>
-            <li className="dropdown-item">
-              <Link to="/Signup" style={{ color: '#fff', textDecoration: 'none' }}>
-                Signup
-              </Link>
-            </li>
-          </ul>
-        )}
-      </li>
-    )}
-            
-          </form>
+     
+      <Link to="/Login" style={{
+        position: "absolute",
+        top: "10px",
+        right: "10px",
+        backgroundColor: "3CE88D",
+        color: "#fff",
+        border: "none",
+        padding: "10px 20px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "background-color 0.3s ease"
+      }}>
+        Login
+      </Link>
+      
+      
+    
+  )}
+ 
           <button className="nav-btn nav-close-btn" onClick={showNavbar}>
             <FaTimes />
           </button>

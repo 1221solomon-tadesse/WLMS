@@ -15,13 +15,16 @@ const Logout = () => {
   return (
     
     <button className="nav-item logout-btn" onClick={handleLogout} style={{
-      'backgroundColor': '#e74c3c',
-      color: '#fff',
-      border: 'none',
-      padding: '10px 20px',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease'
+      position: "absolute",
+  top: "10px",
+  right: "10px", // Adjust the right position to accommodate the login link
+  backgroundColor: "E8AF3C",
+  color: "#fff",
+  border: "none",
+  padding: "10px 20px",
+  borderRadius: "5px",
+  cursor: "pointer",
+  transition: "background-color 0.3s ease"
     }}>
       Logout
     </button>
