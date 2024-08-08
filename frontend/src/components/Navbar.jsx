@@ -1,20 +1,14 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import { Link } from 'react-router-dom';
+import Logout from './auth/Logout';
 
-function Navbar({ currentUser }) {
+function Navbar() {
   const navRef = useRef();
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Check if the user is logged in
-    const isUserLoggedIn = localStorage.getItem('user_id') !== null;
-    setIsLoggedIn(isUserLoggedIn);
-  }, []);
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive_nav");
@@ -33,7 +27,11 @@ function Navbar({ currentUser }) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const role = localStorage.getItem('user_role');
+  // Check if the user is logged in
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  // Check if the user is an admin
+  const isAdmin = localStorage.getItem('role') ;
 
   return (
     <div className="sticky-top">
@@ -41,16 +39,11 @@ function Navbar({ currentUser }) {
         <div className="navbar-brand"></div>
         <nav ref={navRef}>
           <a href="/">Home</a>
-          {role === "admin" && (
+          {isLoggedIn && (
             <>
               <a href="/Books">Books</a>
-              <a href="/AddBooks">Add Books</a>
+              {isAdmin && <a href="/AddBooks">Add Books</a>}
             </>
-          )}
-          {isLoggedIn ? (
-            <a href="/logout">Logout</a>
-          ) : (
-            <a href="/login">Login</a>
           )}
           <a href="/#">About me</a>
           <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>
@@ -65,24 +58,31 @@ function Navbar({ currentUser }) {
               <button type="submit" className="search-button">
                 Search
               </button>
-              {!isLoggedIn && (
-                <li className="nav-item dropdown" onClick={toggleDropdown}>
-                  <Link to="#" className="dropdown-toggle">
-                    Register
-                  </Link>
-                  {isDropdownOpen && (
-                    <ul className="dropdown-menu">
-                      <li className="dropdown-item">
-                        <Link to="/Login">Login</Link>
-                      </li>
-                      <li className="dropdown-item">
-                        <Link to="/Signup">Signup</Link>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-              )}
-            </div>
+              </div>
+              {isLoggedIn ? (
+      <Logout />
+    ) : (
+      <li className="nav-item dropdown" onClick={toggleDropdown} style={{ position: 'relative', marginRight: '0' }}>
+        <Link to="#" className="dropdown-toggle" style={{ color: '#fff', textDecoration: 'none' }}>
+          Register
+        </Link>
+        {isDropdownOpen && (
+          <ul className="dropdown-menu" style={{ position: 'absolute', right: 0, backgroundColor: '#333', padding: '10px', listStyle: 'none', margin: 0, zIndex: 1 }}>
+            <li className="dropdown-item">
+              <Link to="/Login" style={{ color: '#fff', textDecoration: 'none' }}>
+                Login
+              </Link>
+            </li>
+            <li className="dropdown-item">
+              <Link to="/Signup" style={{ color: '#fff', textDecoration: 'none' }}>
+                Signup
+              </Link>
+            </li>
+          </ul>
+        )}
+      </li>
+    )}
+            
           </form>
           <button className="nav-btn nav-close-btn" onClick={showNavbar}>
             <FaTimes />
@@ -91,7 +91,6 @@ function Navbar({ currentUser }) {
         <button className="nav-btn" onClick={showNavbar}>
           <FaBars />
         </button>
-        {currentUser}
       </header>
     </div>
   );

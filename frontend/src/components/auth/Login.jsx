@@ -8,37 +8,47 @@ const Login = () => {
     password: '',
   });
   const navigate = useNavigate();
+  const [serverError, setServerError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post('http://localhost:1000/auth/login', data);
       setData({
         email: '',
         password: '',
       });
-  // Save the JWT token and user role in local storage
-  localStorage.setItem('jwt_token', response.data.token);
-  localStorage.setItem('user_role', response.data.role);
+      setLoading(false);
+
+      // Save the JWT token and user role in local storage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_role', response.data.role);
+      window.localStorage.setItem("isloggedIn",true)
+
       // Check the user's role in the response
       if (response.data.role === 'admin') {
-        navigate('/');
+        navigate('/Books');
         alert('Admin logged in successfully!');
       } else {
         navigate('/');
         alert('User logged in successfully!');
       }
     } catch (error) {
+      setLoading(false);
       if (error.response && error.response.status === 401) {
         alert('Invalid email or password');
       } else {
         console.error(error);
-        alert('Error logging in!');
+        setServerError('Error logging in!');
       }
     }
   };
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.id]: e.target.value });
+    setServerError(null);
   };
 
   return (
@@ -70,8 +80,9 @@ const Login = () => {
           />
         </div>
         <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px' }}>
-          Sign In
+          {loading ? 'Loading...' : 'Sign In'}
         </button>
+        {serverError && <p style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>{serverError}</p>}
         <p style={{ marginTop: '10px', textAlign: 'center' }}>
           Don't have an account? <Link to="/Signup">Sign Up</Link>
         </p>
