@@ -36,14 +36,14 @@ function Navbar() {
           {isLoggedIn && (
             <>
               <a href="/Books">Books</a>
-              {localStorage.getItem('user_role') === 'admin' ? (<a href="/AddBooks">Add Books</a>):(
+              {localStorage.getItem('role') === 'admin' ? (<a href="/AddBooks">Add Books</a>):(
                 <></>
               )
               }
               
             </>
           )}
-          <a href="/#">About me</a>
+          <a href="/#">About</a>
          
           <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>
             <div className="search-container"style={{marginLeft:"400px"}}>

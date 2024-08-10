@@ -57,7 +57,7 @@ const BooksSection = ({ data, isLoading }) => {
               <p className="description">{book.description}</p>
               <p className="price">${book.price}</p>
             </div> 
-            {localStorage.getItem('user_role') === 'admin' ?(<div className="button-group">
+            {localStorage.getItem('role') === 'admin' ?(<div className="button-group">
               <button
                 onClick={() => handleUpdate(book._id)}
                 style={{

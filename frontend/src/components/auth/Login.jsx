@@ -21,10 +21,9 @@ const Login = () => {
         password: '',
       });
       setLoading(false);
-
       // Save the JWT token and user role in local storage
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user_role', response.data.role);
+      localStorage.setItem('role', response.data.role);
       window.localStorage.setItem("isloggedIn",true)
 
       // Check the user's role in the response

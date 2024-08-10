@@ -8,6 +8,7 @@ import Update from './components/Update';
 import SearchResults from './components/SearchResult';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
+import ProtectedRoutes from './components/ProtectedRoute'
 function App() {
   return (
    
@@ -17,11 +18,14 @@ function App() {
   <Route path='/Login' element={<Login/>}/>
   <Route path='/Signup'element={<Signup/>}/>
   <Route path="/" element={<Home />} />
+  <Route element ={<ProtectedRoutes allowedRoles={['admin', 'user']} />}>
   <Route path="/Books" element={<Books />} />
   <Route path="/AddBooks" element={<AddBooks />} />
   <Route path="/search" element={<SearchResults />} />
   <Route path="/update" element={<Update />} />
   <Route path="/update/:id" element={<Update />} />
+  </Route>
+ 
 </Routes>
       <Footer />
     </BrowserRouter>
