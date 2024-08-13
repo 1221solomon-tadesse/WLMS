@@ -1,42 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const SearchResults = () => {
-	const [results, setResults] = useState([]);
-	const location = useLocation();
+const SearchResult = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
-		const query = new URLSearchParams(location.search).get('query');
-		if (query) {
-			fetchBooks(query);
-		}
-	}, [location]);
-
-	const fetchBooks = async (query) => {
-        try {
-            const response = await axios.get(`http://localhost:1000/api/v1/getBooks?query=${query}`);
-            setResults(response.data.books); // Adjusted to access the books array
-        } catch (error) {
-            console.error("Error fetching books:", error);
-        }
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/books');
+        const data = await response.json();
+        setBooks(data);
+        setFilteredBooks(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching books:', error);
+        setIsLoading(false);
+      }
     };
 
-	return (
-		<div>
-			<h2>Search Results</h2>
-			{results.length > 0 ? (
-				results.map((book) => (
-					<div key={book._id}>
-						<h3>{book.bookname}</h3>
-						<p>By {book.author}</p>
-					</div>
-				))
-			) : (
-				<p>No results found.</p>
-			)}
-		</div>
-	);
+    fetchBooks();
+  }, []);
+
+  const handleSearch = (event) => {
+    const term = event.target.value.trim().toLowerCase();
+    setSearchTerm(term);
+
+    if (term === '') {
+      setFilteredBooks(books);
+    } else {
+      const filtered = books.filter((book) =>
+        book.bookname.toLowerCase().includes(term) ||
+        book.author.toLowerCase().includes(term) ||
+        book.description.toLowerCase().includes(term)
+      );
+      setFilteredBooks(filtered);
+    }
+  };
+
+  return (
+    <div className="search-result">
+      <div className="search-input">
+        <input
+          type="text"
+          placeholder="Search for books..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        {isLoading && <div className="loader">Loading...</div>}
+      </div>
+      <div className="book-grid">
+        {filteredBooks.length > 0 ? (
+          filteredBooks.map((book) => (
+            <div key={book.id} className="book-card">
+              <img src={book.image} alt={book.bookname} />
+              <h3>{book.bookname}</h3>
+              <p>by {book.author}</p>
+              <p>{book.description}</p>
+              <button>Add to Cart</button>
+            </div>
+          ))
+        ) : (
+          <div className="no-books">No books found.</div>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default SearchResults;
+export default SearchResult;
