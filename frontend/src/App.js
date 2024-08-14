@@ -5,10 +5,10 @@ import Books from './components/Books';
 import AddBooks from './components/AddBooks';
 import Footer from './components/Footer';
 import Update from './components/Update';
-import SearchResult from './components/SearchResult';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import ProtectedRoutes from './components/ProtectedRoute'
+import SearchResults from './components/SearchResult';
 function App() {
   return (
    
@@ -21,9 +21,10 @@ function App() {
   <Route element ={<ProtectedRoutes allowedRoles={['admin', 'user']} />}>
   <Route path="/Books" element={<Books />} />
   <Route path="/AddBooks" element={<AddBooks />} />
-  <Route path="/search" element={<SearchResult />} />
+  <Route path="/search" element={<SearchResults />} />
   <Route path="/update" element={<Update />} />
   <Route path="/update/:id" element={<Update />} />
+  
   </Route>
  
 </Routes>

@@ -1,73 +1,66 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import '../styles/search.css';
 
-const SearchResult = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [books, setBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const SearchResults = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchQuery = new URLSearchParams(location.search).get('query');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchSearchResults = async () => {
       try {
-        setIsLoading(true);
-        const response = await fetch('/api/books');
-        const data = await response.json();
-        setBooks(data);
-        setFilteredBooks(data);
-        setIsLoading(false);
+        if (searchQuery) {
+          const response = await fetch(`http://localhost:1000/api/v1/getBooks/search?q=${encodeURIComponent(searchQuery)}`);
+          const data = await response.json();
+
+          const filteredResults = data.books
+            ? data.books.filter((book) => {
+                const queryWords = searchQuery.toLowerCase().split(' ');
+                return queryWords.some(
+                  (word) =>
+                    book.bookname.toLowerCase().includes(word) ||
+                    book.author.toLowerCase().includes(word) ||
+                    book.description.toLowerCase().includes(word)
+                );
+              })
+            : [];
+
+          setSearchResults(filteredResults);
+        } else {
+          setSearchResults([]);
+        }
       } catch (error) {
-        console.error('Error fetching books:', error);
-        setIsLoading(false);
+        console.error('Error fetching search results:', error);
       }
     };
 
-    fetchBooks();
-  }, []);
+    fetchSearchResults();
+  }, [searchQuery]);
 
-  const handleSearch = (event) => {
-    const term = event.target.value.trim().toLowerCase();
-    setSearchTerm(term);
-
-    if (term === '') {
-      setFilteredBooks(books);
-    } else {
-      const filtered = books.filter((book) =>
-        book.bookname.toLowerCase().includes(term) ||
-        book.author.toLowerCase().includes(term) ||
-        book.description.toLowerCase().includes(term)
-      );
-      setFilteredBooks(filtered);
-    }
+  const handleBookClick = (bookId) => {
+    navigate(`/book/${bookId}`);
   };
 
   return (
-    <div className="search-result">
-      <div className="search-input">
-        <input
-          type="text"
-          placeholder="Search for books..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        {isLoading && <div className="loader">Loading...</div>}
-      </div>
-      <div className="book-grid">
-        {filteredBooks.length > 0 ? (
-          filteredBooks.map((book) => (
-            <div key={book.id} className="book-card">
-              <img src={book.image} alt={book.bookname} />
+    <div>
+      <h2 style={{ paddingTop: '100px' }}>Search Results for "{searchQuery || 'No query'}"</h2>
+      <div className="search-results-container">
+        {searchResults.map((book) => (
+          <div key={book.id} className="search-result-item" onClick={() => handleBookClick(book.id)}>
+            <img src={book.image} alt={book.bookname} />
+            <div className="book-info">
               <h3>{book.bookname}</h3>
-              <p>by {book.author}</p>
+              <p>Author: {book.author}</p>
+              <p>Price: ${book.price}</p>
               <p>{book.description}</p>
-              <button>Add to Cart</button>
             </div>
-          ))
-        ) : (
-          <div className="no-books">No books found.</div>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default SearchResult;
+export default SearchResults;

@@ -23,19 +23,29 @@ catch(error){
     console.log(error)
 }
 })
-router.get("/getBooks", async (req, res) => {
-	const query = req.query.query;
+router.get('/getBooks/search', async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+    if (!searchQuery) {
+      return res.status(200).json({ books: [] });
+    }
 
-	try {
-		// Search for books that match the query
-		const books = await bookModel.find({
-			name: new RegExp(query, 'i'),  // Assuming 'name' is the field you want to search
-		});
-		res.status(200).json({ books });
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: "Server error" });
-	}
+    // Escape any special characters in the search query
+    const escapedQuery = searchQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+    const books = await bookModel.find({
+      $or: [
+        { bookname: { $regex: new RegExp(escapedQuery, 'i') } },
+        { author: { $regex: new RegExp(escapedQuery, 'i') } },
+        { description: { $regex: new RegExp(escapedQuery, 'i') } },
+      ],
+    });
+
+    return res.status(200).json({ books });
+  } catch (error) {
+    console.error('Error fetching search results:', error);
+    return res.status(500).json({ error: 'Error fetching search results' });
+  }
 });
 // Get request with ID
 router.get("/getBooks/:id", async (req, res) => {
