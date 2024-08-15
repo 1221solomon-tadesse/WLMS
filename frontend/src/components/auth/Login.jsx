@@ -3,10 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-  });
+  const [data, setData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,18 +13,18 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await axios.post('http://localhost:1000/auth/login', data);
-      setData({
-        email: '',
-        password: '',
-      });
-      setLoading(false);
-      // Save the JWT token and user role in local storage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.role);
-      window.localStorage.setItem("isloggedIn",true)
 
-      // Check the user's role in the response
-      if (response.data.role === 'admin') {
+      
+      const { token, role, user } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      window.localStorage.setItem("isloggedIn", true);
+
+      setData({ email: '', password: '' });
+      setLoading(false);
+
+      // Redirect based on user role
+      if (role === 'admin') {
         navigate('/Books');
         alert('Admin logged in successfully!');
       } else {

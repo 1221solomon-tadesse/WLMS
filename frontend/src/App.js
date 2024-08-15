@@ -9,6 +9,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import ProtectedRoutes from './components/ProtectedRoute'
 import SearchResults from './components/SearchResult';
+import BookBorrow from './components/student/Request';
 function App() {
   return (
    
@@ -20,6 +21,7 @@ function App() {
   <Route path="/" element={<Home />} />
   <Route element ={<ProtectedRoutes allowedRoles={['admin', 'user']} />}>
   <Route path="/Books" element={<Books />} />
+  <Route path="/borrow/:id" element={<BookBorrow />} />
   <Route path="/AddBooks" element={<AddBooks />} />
   <Route path="/search" element={<SearchResults />} />
   <Route path="/update" element={<Update />} />

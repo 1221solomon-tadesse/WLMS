@@ -2,7 +2,7 @@ const express = require("express")
 const bookRoute =require('./routes/booksRoutes')
 const signupRoute=require('./routes/signup')
 const bodyParser=require('body-parser')
-const transactionRoutes=require('./routes/transaction')
+const borrowRequestRoute = require('./routes/borrowRequestRoute');
 const userRoutes=require('./routes/userRout')
 const createAdminAccount=require('./scripts/admin')
 const loginRoute=require('./routes/login')
@@ -17,7 +17,7 @@ app.use('/user',signupRoute)
 app.use('/auth',loginRoute)
 app.use(express.json())
 app.use("/api/v1",bookRoute)
-app.use("/transactions", transactionRoutes);
+app.use("/api", borrowRequestRoute); 
 app.listen(1000,()=>{
     console.log('SERVER STARTED SUCCESSFULY ')
 })

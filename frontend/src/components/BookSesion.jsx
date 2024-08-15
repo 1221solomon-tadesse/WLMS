@@ -16,12 +16,15 @@ const BooksSection = ({ data, isLoading }) => {
     try {
       await axios.delete(`http://localhost:1000/api/v1/deleteBook/${id}`);
       console.log('Book deleted successfully');
-
-      // Update the state to remove the deleted book
       setBooks(books.filter((book) => book._id !== id));
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleBorrow = (id) => {
+    const userId = localStorage.getItem('userId'); // Assuming the user's ID is stored in localStorage
+    navigate(`/borrow/${id}`, { state: { userId, bookId: id } });
   };
 
   if (isLoading) {
@@ -56,31 +59,45 @@ const BooksSection = ({ data, isLoading }) => {
               <p>By {book.author}</p>
               <p className="description">{book.description}</p>
               <p className="price">${book.price}</p>
-            </div> 
-            {localStorage.getItem('role') === 'admin' ?(<div className="button-group">
-              <button
-                onClick={() => handleUpdate(book._id)}
-                style={{
-                  textDecoration: 'none',
-                  borderRadius: '0.25rem',
-                  backgroundColor: '#3A9DAB',
-                  color: '#fff',
-                  padding: '0.5rem 1rem',
-                }}
-              >
-                Update
-              </button>
-              <button
-                onClick={() => handleDelete(book._id)}
-                className="btn btn-danger delete-btn"
-                style={{ color: 'rgb(242,100,100)', padding: '0.5rem 1rem', border: 'none', background: 'rgb(245,191,191)', cursor: 'pointer' }}
-              >
-                Delete
-              </button>
-            </div>)
-            :(<><h>cant</h>
-            </>)
-}
+            </div>
+            {localStorage.getItem('role') === 'admin' ? (
+              <div className="button-group">
+                <button
+                  onClick={() => handleUpdate(book._id)}
+                  style={{
+                    textDecoration: 'none',
+                    borderRadius: '0.25rem',
+                    backgroundColor: '#3A9DAB',
+                    color: '#fff',
+                    padding: '0.5rem 1rem',
+                  }}
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handleDelete(book._id)}
+                  className="btn btn-danger delete-btn"
+                  style={{ color: 'rgb(242,100,100)', padding: '0.5rem 1rem', border: 'none', background: 'rgb(245,191,191)', cursor: 'pointer' }}
+                >
+                  Delete
+                </button>
+              </div>
+            ) : (
+              <div className="button-group">
+                <button
+                  onClick={() => handleBorrow(book._id)}
+                  style={{
+                    textDecoration: 'none',
+                    borderRadius: '0.25rem',
+                    backgroundColor: '#4CAF50',
+                    color: '#fff',
+                    padding: '0.5rem 1rem',
+                  }}
+                >
+                  Request
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
