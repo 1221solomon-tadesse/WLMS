@@ -8,40 +8,43 @@ const Login = () => {
   const [serverError, setServerError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:1000/auth/login', data);
+  // Frontend
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  setLoading(true);
+  try {
+    const response = await axios.post('http://localhost:1000/auth/login', data);
 
-      
-      const { token, role, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-      window.localStorage.setItem("isloggedIn", true);
+    // Log the entire response to check its structure
+    console.log('Response Data:', response.data);
 
-      setData({ email: '', password: '' });
-      setLoading(false);
+    const { token, role, user } = response.data;
 
-      // Redirect based on user role
-      if (role === 'admin') {
-        navigate('/Books');
-        alert('Admin logged in successfully!');
-      } else {
-        navigate('/');
-        alert('User logged in successfully!');
-      }
-    } catch (error) {
-      setLoading(false);
-      if (error.response && error.response.status === 401) {
-        alert('Invalid email or password');
-      } else {
-        console.error(error);
-        setServerError('Error logging in!');
-      }
+    // Store token, role, and email in local storage
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role);
+    localStorage.setItem('userId', user?.id || '');
+    localStorage.setItem('email', user?.email || '');
+    localStorage.setItem('isloggedIn', true);
+
+    setLoading(false);
+    if (role === 'admin') {
+      navigate('/Books');
+      alert('Admin logged in successfully!');
+    } else {
+      navigate('/');
+      alert('User logged in successfully!');
     }
-  };
-
+  } catch (error) {
+    setLoading(false);
+    if (error.response && error.response.status === 401) {
+      alert('Invalid email or password');
+    } else {
+      console.error(error);
+      setServerError('Error logging in!');
+    }
+  }
+};
   const handleChange = (e) => {
     setData({ ...data, [e.target.id]: e.target.value });
     setServerError(null);
