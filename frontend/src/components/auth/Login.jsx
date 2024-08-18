@@ -7,7 +7,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(null);
   const [loading, setLoading] = useState(false);
-
   // Frontend
 const handleSubmit = async (event) => {
   event.preventDefault();
@@ -23,7 +22,7 @@ const handleSubmit = async (event) => {
     // Store token, role, and email in local storage
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
-    localStorage.setItem('userId', user?.id || '');
+    localStorage.setItem('userId', user?._id || '');
     localStorage.setItem('email', user?.email || '');
     localStorage.setItem('isloggedIn', true);
 
