@@ -10,6 +10,7 @@ import Login from './components/auth/Login';
 import ProtectedRoutes from './components/ProtectedRoute'
 import SearchResults from './components/SearchResult';
 import BookBorrow from './components/student/Request';
+import AdminBorrowRequests from './components/admin/AdminSection';
 function App() {
   return (
    
@@ -24,9 +25,9 @@ function App() {
   <Route path="/borrow/:id" element={<BookBorrow />} />
   <Route path="/AddBooks" element={<AddBooks />} />
   <Route path="/search" element={<SearchResults />} />
-  <Route path="/update" element={<Update />} />
+{/* <Route path="/update" element={<Update />} /> */}
   <Route path="/update/:id" element={<Update />} />
-  
+  <Route path='/AdminSection'element={<AdminBorrowRequests/>}/>
   </Route>
  
 </Routes>

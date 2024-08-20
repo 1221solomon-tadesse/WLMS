@@ -48,7 +48,7 @@ const AdminBorrowRequests = () => {
 
   return (
     <div>
-      <h1 style={{}}>Borrow Requests</h1>
+      <h1>Borrow Requests</h1>
       <table>
         <thead>
           <tr>

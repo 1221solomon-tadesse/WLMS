@@ -34,15 +34,17 @@ function Navbar() {
         <nav ref={navRef}>
           <a href="/">Home</a>
           {isLoggedIn && (
-            <>
-              <a href="/Books">Books</a>
-              {localStorage.getItem('role') === 'admin' ? (<a href="/AddBooks">Add Books</a>):(
-                <></>
-              )
-              }
-              
-            </>
-          )}
+  <>
+    <a href="/Books">Books</a>
+    {localStorage.getItem('role') === 'admin' && (
+      <>
+        <a href="/AddBooks">Add Books</a>
+        <a href="/AdminSection">Student-request</a>
+      </>
+    )}
+  </>
+)}
+
           <a href="/#">About</a>
          
           <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>

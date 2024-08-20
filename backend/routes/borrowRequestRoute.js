@@ -34,6 +34,17 @@ router.get('/getRequests', async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+// Get borrow requests for the logged-in user
+router.get('/getUserRequests', async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const requests = await BorrowRequest.find({ userId }).populate('bookId').populate('userId');
+    res.status(200).json({ requests });
+  } catch (error) {
+    console.error("Error fetching borrow requests:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // Update request status (admin use)
 router.put('/updateRequest/:id', async (req, res) => {
@@ -45,7 +56,7 @@ router.put('/updateRequest/:id', async (req, res) => {
       id,
       { status },
       { new: true, runValidators: true }
-    );
+    ); 
 
     if (!request) {
       return res.status(404).json({ message: "Request not found" });

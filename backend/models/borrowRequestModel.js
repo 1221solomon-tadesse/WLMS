@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const borrowRequestSchema = new mongoose.Schema({
   bookId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Book',
+    ref: 'books', // This matches your Book model name
     required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user', // Change this to 'user' to match your userModel
     required: true,
   },
   status: {

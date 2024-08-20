@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/AddBook.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const AddBooks = () => {
   const [data, setData] = useState({
@@ -10,7 +11,7 @@ const AddBooks = () => {
     image: "",
     price: ""
   });
-
+  const navigate=useNavigate()
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -35,7 +36,9 @@ const AddBooks = () => {
       alert("Error adding book!");
     }
   }
-
+  const handleBackToBooks = () => {
+    navigate('/Books');
+  };
   return (
    
     <div className='main'>
@@ -61,8 +64,22 @@ const AddBooks = () => {
             <label className="form-label">Price</label>
             <input type="number" className="form-control" name="price" value={data.price} onChange={handleInputChange} placeholder="Enter the price of the book" />
           </div>
-          <button type="submit" className="btn btn-primary mt-3">Save</button>
+          {/* <button type="submit" className="btn btn-primary mt-3">Save</button> */}
         </form>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+  <button type="submit" className="btn btn-primary">
+    Add Book
+  </button>
+  <button
+    type="button"
+    onClick={handleBackToBooks}
+    className="btn btn-secondary"
+    style={{ marginLeft: 'auto' }} // Pushes the button to the right
+  >
+    Back to Books
+  </button>
+</div>
+
       </div>
     </div>
   )
