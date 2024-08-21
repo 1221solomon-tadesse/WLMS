@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import '../../styles/request.css'
+import '../../styles/request.css';
+
 const BookBorrow = () => {
   const { id } = useParams(); // bookId from URL
   const location = useLocation();
   const { userId } = location.state || {}; // userId passed from previous page
   const navigate = useNavigate();
-  const [bookDetails, setBookDetails] = useState(null); // Changed to a single object
+  const [bookDetails, setBookDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,8 +17,8 @@ const BookBorrow = () => {
     const fetchBookDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:1000/api/v1/getbooks/${id}`);
-        console.log('Book details fetched successfully:', response.data); // Log the response
-        setBookDetails(response.data); // Set the book details directly
+        console.log('Book details fetched successfully:', response.data);
+        setBookDetails(response.data);
       } catch (error) {
         console.error('Error fetching book details:', error.response || error.message);
         setError('Failed to load book details. Please try again later.');
@@ -30,7 +31,6 @@ const BookBorrow = () => {
   const handleConfirmBorrow = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const response = await axios.post(`http://localhost:1000/api/requestBorrow`, { bookId: id, userId });
       console.log('Borrow request created successfully:', response.data);

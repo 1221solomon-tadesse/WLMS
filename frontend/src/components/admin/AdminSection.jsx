@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../styles/requestedBook.css'
+import '../../styles/requestedBook.css';
+
 const AdminBorrowRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch all borrow requests when the component mounts
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -13,33 +15,37 @@ const AdminBorrowRequests = () => {
         setRequests(response.data.requests);
         setLoading(false);
       } catch (error) {
+        console.error("Failed to load borrow requests", error);
         setError("Failed to load borrow requests");
         setLoading(false);
       }
     };
-
     fetchRequests();
   }, []);
 
+  // Handle approval of a borrow request
   const handleApprove = async (requestId) => {
     try {
-      await axios.post(`/approveRequest/${requestId}`);
+      await axios.put(`http://localhost:1000/api/updateRequest/${requestId}`, { status: 'approved' });
       setRequests(requests.map(request => 
         request._id === requestId ? { ...request, status: 'approved' } : request
       ));
     } catch (error) {
       console.error("Error approving request", error);
+      setError("Failed to approve the request");
     }
   };
 
+  // Handle decline of a borrow request
   const handleDecline = async (requestId) => {
     try {
-      await axios.post(`/declineRequest/${requestId}`);
+      await axios.put(`http://localhost:1000/api/updateRequest/${requestId}`, { status: 'rejected' });
       setRequests(requests.map(request => 
         request._id === requestId ? { ...request, status: 'rejected' } : request
       ));
     } catch (error) {
       console.error("Error declining request", error);
+      setError("Failed to decline the request");
     }
   };
 
@@ -47,9 +53,9 @@ const AdminBorrowRequests = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h1 style={{}}>Borrow Requests</h1>
-      <table>
+    <div className="admin-borrow-requests">
+      <h1>Borrow Requests</h1>
+      <table className="request-table">
         <thead>
           <tr>
             <th>Book Image</th>
@@ -64,15 +70,33 @@ const AdminBorrowRequests = () => {
           {requests.map(request => (
             <tr key={request._id}>
               <td>
-                <img src={request.bookId.image} alt={request.bookId.bookname} style={{ width: '50px', height: '75px' }} />
+                <img 
+                  src={request.bookId.image} 
+                  alt={request.bookId.bookname} 
+                  style={{ width: '50px', height: '75px' }} 
+                />
               </td>
               <td>{request.bookId.bookname}</td>
               <td>{request.bookId.author}</td>
               <td>{request.userId.name}</td>
-              <td>{request.status}</td>
+              <td className={`status ${request.status}`}>
+                {request.status}
+              </td>
               <td>
-                <button onClick={() => handleApprove(request._id)}>Approve</button>
-                <button onClick={() => handleDecline(request._id)}>Decline</button>
+                <button 
+                  onClick={() => handleApprove(request._id)} 
+                  className="approve-button"
+                  disabled={request.status === 'approved'}
+                >
+                  Approve
+                </button>
+                <button 
+                  onClick={() => handleDecline(request._id)} 
+                  className="decline-button"
+                  disabled={request.status === 'rejected'}
+                >
+                  Decline
+                </button>
               </td>
             </tr>
           ))}

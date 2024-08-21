@@ -5,7 +5,7 @@ const Book = require('../models/booksModel');
 // Create a borrow request
 router.post('/requestBorrow', async (req, res) => {
   const { bookId, userId } = req.body;
-
+  
   try {
     // Check if the book exists
     const book = await Book.findById(bookId);
@@ -34,6 +34,7 @@ router.get('/getRequests', async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 // Get borrow requests for the logged-in user
 router.get('/getUserRequests', async (req, res) => {
   try {
@@ -62,7 +63,7 @@ router.put('/updateRequest/:id', async (req, res) => {
       return res.status(404).json({ message: "Request not found" });
     }
 
-    res.status(200).json({ message: "Request updated successfully", request });
+    res.status(200).json({ message: `Request ${status} successfully`, request });
   } catch (error) {
     console.error("Error updating borrow request:", error);
     res.status(500).json({ message: "Server error" });
@@ -70,3 +71,4 @@ router.put('/updateRequest/:id', async (req, res) => {
 });
 
 module.exports = router;
+ 
