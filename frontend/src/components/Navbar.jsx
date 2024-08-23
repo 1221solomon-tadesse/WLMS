@@ -31,7 +31,7 @@ function Navbar() {
     <div className="sticky-top">
       <header>
         <div className="navbar-brand"></div>
-        <nav ref={navRef} className="navbar">
+        <nav ref={navRef}>
           <a href="/">Home</a>
           {isLoggedIn && (
             <>
@@ -39,15 +39,16 @@ function Navbar() {
               {isAdmin ? (
                 <>
                   <a href="/AddBooks">Add Books</a>
-                  <a href="/AdminSection">Student Requests</a>
+                  <a href="/AdminSection">Student-request</a>
                 </>
               ) : (
                 <a href="/Requestedbooks">My Borrow Requests</a>
               )}
             </>
           )}
-          <form className='search-form' onSubmit={handleSearch}>
-            <div className="search-container">
+          <a href="/About">About</a>       
+          <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>
+            <div className="search-container" style={{ marginLeft: "400px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -63,7 +64,18 @@ function Navbar() {
           {isLoggedIn ? (
             <Logout />
           ) : (
-            <Link to="/Login" className="login-button">
+            <Link to="/Login" style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              backgroundColor: "#3CE88D",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease"
+            }}>
               Login
             </Link>
           )}
