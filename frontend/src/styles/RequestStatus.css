@@ -1,0 +1,59 @@
+/* Container styling */
+.student {
+  max-width: 800px;
+  margin: 0 auto; 
+  padding: 20px;
+}
+
+/* Title styling */
+.title {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin: 30px 0; /* Adjusted margins for better spacing */
+  font-weight: bold;
+}
+
+/* Loading and error messages */
+.loading, .error {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin: 20px 0; /* Space above and below the messages */
+}
+
+/* List styling */
+.requestList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Request item styling */
+.requestItem {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #abc6e0; /* Lightened background color */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Request item title styling */
+.requestItem h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Request item paragraph styling */
+.requestItem p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Strong text styling */
+.requestItem p strong {
+  color: #333;
+}

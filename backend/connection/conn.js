@@ -1,2 +1,2 @@
-const mongoose =require("mongoose")
-mongoose.connect('mongodb+srv://team:solomon@cluster0.yzqmcu5.mongodb.net/Book-store?retryWrites=true&w=majority&appName=Cluster0').then(()=>console.log("connected"))
+const mongoose =  require("mongoose");
+mongoose.connect('mongodb+srv://team:solomon@cluster0.yzqmcu5.mongodb.net/Book-store?retryWrites=true&w=majority&appName=Cluster0').then(()=>console.log("connected"));

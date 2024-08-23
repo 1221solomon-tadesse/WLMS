@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../../styles/requestedBook.css'
-const AdminBorrowRequests = () => {
+import '../../styles/RequestStatus.css';
+
+const UserBorrowRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,11 +10,25 @@ const AdminBorrowRequests = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:1000/api/getRequests');
+        const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+        const userId = localStorage.getItem('userId'); // Get user ID from localStorage
+
+        if (!token || !userId) {
+          throw new Error('User not logged in or user ID missing');
+        }
+        
+        const response = await axios.get(`http://localhost:1000/api/getUserRequests/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        console.log('Response data:', response.data); // Debugging line
         setRequests(response.data.requests);
         setLoading(false);
       } catch (error) {
-        setError("Failed to load borrow requests");
+        console.error("Error fetching borrow requests:", error);
+        setError('Failed to load borrow requests. Please try again later.');
         setLoading(false);
       }
     };
@@ -21,65 +36,27 @@ const AdminBorrowRequests = () => {
     fetchRequests();
   }, []);
 
-  const handleApprove = async (requestId) => {
-    try {
-      await axios.post(`/approveRequest/${requestId}`);
-      setRequests(requests.map(request => 
-        request._id === requestId ? { ...request, status: 'approved' } : request
-      ));
-    } catch (error) {
-      console.error("Error approving request", error);
-    }
-  };
-
-  const handleDecline = async (requestId) => {
-    try {
-      await axios.post(`/declineRequest/${requestId}`);
-      setRequests(requests.map(request => 
-        request._id === requestId ? { ...request, status: 'rejected' } : request
-      ));
-    } catch (error) {
-      console.error("Error declining request", error);
-    }
-  };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <p className='loading'>Loading requests...</p>;
+  if (error) return <p className='error'>{error}</p>;
 
   return (
-    <div>
-      <h1>Borrow Requests</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Book Image</th>
-            <th>Book Name</th>
-            <th>Author</th>
-            <th>User Name</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {requests.map(request => (
-            <tr key={request._id}>
-              <td>
-                <img src={request.bookId.image} alt={request.bookId.bookname} style={{ width: '50px', height: '75px' }} />
-              </td>
-              <td>{request.bookId.bookname}</td>
-              <td>{request.bookId.author}</td>
-              <td>{request.userId.name}</td>
-              <td>{request.status}</td>
-              <td>
-                <button onClick={() => handleApprove(request._id)}>Approve</button>
-                <button onClick={() => handleDecline(request._id)}>Decline</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className='student'>
+      <h2 className='title'>Your Borrow Requests</h2>
+      <ul className='requestList'>
+        {requests.length > 0 ? (
+          requests.map((request) => (
+            <li key={request._id} className='requestItem'>
+              <h3>{request.bookId.bookname}</h3>
+              <p>Status: <strong>{request.status}</strong></p>
+              <p>Requested on: {new Date(request.requestDate).toLocaleDateString()}</p>
+            </li>
+          ))
+        ) : (
+          <p className='noRequests'>No borrow requests found.</p>
+        )}
+      </ul>
     </div>
   );
 };
 
-export default AdminBorrowRequests;
+export default UserBorrowRequests;

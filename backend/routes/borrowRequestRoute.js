@@ -24,7 +24,7 @@ router.post('/requestBorrow', async (req, res) => {
   }
 });
 
-// Get all borrow requests
+// Get all borrow requests 
 router.get('/getRequests', async (req, res) => {
   try {
     const requests = await BorrowRequest.find().populate('bookId').populate('userId');
@@ -35,17 +35,34 @@ router.get('/getRequests', async (req, res) => {
   }
 });
 
-// Get borrow requests for the logged-in user
-router.get('/getUserRequests', async (req, res) => {
+// Get borrow requests for a specific user by userId
+router.get('/getUserRequests/:id', async (req, res) => {
+  console.log("Request received for user ID:", req.params.id); // Log the userId
+
   try {
-    const userId = req.user._id;
-    const requests = await BorrowRequest.find({ userId }).populate('bookId').populate('userId');
+    const userId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    // Fetch borrow requests for the specific user and populate book details
+    const requests = await BorrowRequest.find({ userId })
+      .populate('bookId')
+      .populate('userId');
+
+    if (!requests || requests.length === 0) {
+      return res.status(404).json({ message: "No borrow requests found for this user" });
+    }
+
+    // Return the requests along with their status
     res.status(200).json({ requests });
   } catch (error) {
     console.error("Error fetching borrow requests:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // Update request status (admin use)
 router.put('/updateRequest/:id', async (req, res) => {
@@ -71,4 +88,3 @@ router.put('/updateRequest/:id', async (req, res) => {
 });
 
 module.exports = router;
- 

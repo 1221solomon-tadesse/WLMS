@@ -25,7 +25,7 @@ function Navbar() {
   const isLoggedIn = !!localStorage.getItem('token');
 
   // Check if the user is an admin
-  //const isAdmin = localStorage.getItem('role')=='admin' ;
+  const isAdmin = localStorage.getItem('role') === 'admin';
 
   return (
     <div className="sticky-top">
@@ -34,21 +34,21 @@ function Navbar() {
         <nav ref={navRef}>
           <a href="/">Home</a>
           {isLoggedIn && (
-  <>
-    <a href="/Books">Books</a>
-    {localStorage.getItem('role') === 'admin' && (
-      <>
-        <a href="/AddBooks">Add Books</a>
-        <a href="/AdminSection">Student-request</a>
-      </>
-    )}
-  </>
-)}
-
-          <a href="/#">About</a>
-         
+            <>
+              <a href="/Books">Books</a>
+              {isAdmin ? (
+                <>
+                  <a href="/AddBooks">Add Books</a>
+                  <a href="/AdminSection">Student-request</a>
+                </>
+              ) : (
+                <a href="/Requestedbooks">My Borrow Requests</a>
+              )}
+            </>
+          )}
+          <a href="/#">About</a>       
           <form className='form-inline my-2 my-lg-0 d-flex justify-content-end' onSubmit={handleSearch}>
-            <div className="search-container"style={{marginLeft:"400px"}}>
+            <div className="search-container" style={{ marginLeft: "400px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -59,31 +59,26 @@ function Navbar() {
               <button type="submit" className="search-button">
                 Search
               </button>
-              </div>
-              </form>   
-              {isLoggedIn ? (
-      <Logout />
-    ) : (
-     
-      <Link to="/Login" style={{
-        position: "absolute",
-        top: "10px",
-        right: "10px",
-        backgroundColor: "3CE88D",
-        color: "#fff",
-        border: "none",
-        padding: "10px 20px",
-        borderRadius: "5px",
-        cursor: "pointer",
-        transition: "background-color 0.3s ease"
-      }}>
-        Login
-      </Link>
-      
-      
-    
-  )}
- 
+            </div>
+          </form>   
+          {isLoggedIn ? (
+            <Logout />
+          ) : (
+            <Link to="/Login" style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              backgroundColor: "#3CE88D",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease"
+            }}>
+              Login
+            </Link>
+          )}
           <button className="nav-btn nav-close-btn" onClick={showNavbar}>
             <FaTimes />
           </button>
