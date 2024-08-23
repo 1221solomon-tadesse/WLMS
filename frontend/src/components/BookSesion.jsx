@@ -45,7 +45,6 @@ const BooksSection = ({ data, isLoading }) => {
 
   return (
     <div className="books-section">
-      <h2>Books</h2>
       <div className="book-grid">
         {books.map((book) => (
           <div key={book._id} className="book-card">

@@ -34,7 +34,8 @@ const Books = () => {
       <div className="book-section">
         <div className="container">
           <div className="book-section-title">
-            <h2>Book section</h2>
+            <h2 style={{paddingTop:60,borderRadius: '0.25rem',
+                    backgroundColor: '#4CAF50'}}>Book section</h2>
           </div>
           {isLoading ? (
             <div className="text-align-center">Loading...</div>

@@ -41,7 +41,8 @@ const UserBorrowRequests = () => {
 
   return (
     <div className='student'>
-      <h2 className='title'>Your Borrow Requests</h2>
+      <h2 className='title'style={{paddingTop:60,borderRadius: '0.26rem',
+                    backgroundColor: '#4CAF50'}}>Your Borrow Requests</h2>
       <ul className='requestList'>
         {requests.length > 0 ? (
           requests.map((request) => (

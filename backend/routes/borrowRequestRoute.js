@@ -37,7 +37,7 @@ router.get('/getRequests', async (req, res) => {
 
 // Get borrow requests for a specific user by userId
 router.get('/getUserRequests/:id', async (req, res) => {
-  console.log("Request received for user ID:", req.params.id); // Log the userId
+  
 
   try {
     const userId = req.params.id;

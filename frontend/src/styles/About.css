@@ -1,0 +1,48 @@
+/* About Page */
+.about-page {
+    padding: 60px 20px;
+    background-color: #f4f4f9; /* Light background color for the page */
+    min-height: 100vh;
+    color: #333;
+  }
+  
+   .about {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  } 
+  
+  .about-title {
+    font-size: 2.5rem;
+    color: #ff8800;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .about-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .about-description ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .about-description li {
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .about-title {
+      font-size: 2rem;
+    }
+    
+    .about-description {
+      font-size: 1rem;
+    }
+  }
+  
