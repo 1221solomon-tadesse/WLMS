@@ -16,7 +16,7 @@ const UserBorrowRequests = () => {
         if (!token || !userId) {
           throw new Error('User not logged in or user ID missing');
         }
-        
+
         const response = await axios.get(`http://localhost:1000/api/getUserRequests/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -41,15 +41,20 @@ const UserBorrowRequests = () => {
 
   return (
     <div className='student'>
-      <h2 className='title'style={{paddingTop:60,borderRadius: '0.26rem',
-                    backgroundColor: '#4CAF50'}}>Your Borrow Requests</h2>
+      <h2 className='title' style={{paddingTop:60, borderRadius: '0.26rem', backgroundColor: '#4CAF50'}}>Your Borrow Requests</h2>
       <ul className='requestList'>
         {requests.length > 0 ? (
           requests.map((request) => (
             <li key={request._id} className='requestItem'>
-              <h3>{request.bookId.bookname}</h3>
-              <p>Status: <strong>{request.status}</strong></p>
-              <p>Requested on: {new Date(request.requestDate).toLocaleDateString()}</p>
+              {request.bookId ? (
+                <>
+                  <h3>{request.bookId.bookname}</h3>
+                  <p>Status: <strong>{request.status}</strong></p>
+                  <p>Requested on: {new Date(request.requestDate).toLocaleDateString()}</p>
+                </>
+              ) : (
+                <p>Book information is not available for this request.</p>
+              )}
             </li>
           ))
         ) : (

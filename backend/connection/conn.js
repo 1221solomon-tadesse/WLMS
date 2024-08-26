@@ -1,2 +1,15 @@
-const mongoose =  require("mongoose");
-mongoose.connect('mongodb+srv://team:solomon@cluster0.yzqmcu5.mongodb.net/Book-store?retryWrites=true&w=majority&appName=Cluster0').then(()=>console.log("connected"));
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/Book-store', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to local MongoDB');
+  } catch (error) {
+    console.error('Could not connect to MongoDB...', error);
+  }
+};
+
+connectDB();

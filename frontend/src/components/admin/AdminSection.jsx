@@ -70,15 +70,19 @@ const AdminBorrowRequests = () => {
           {requests.map(request => (
             <tr key={request._id}>
               <td>
-                <img 
-                  src={request.bookId.image} 
-                  alt={request.bookId.bookname} 
-                  style={{ width: '50px', height: '75px' }} 
-                />
+                {request.bookId && request.bookId.image ? (
+                  <img 
+                    src={request.bookId.image} 
+                    alt={request.bookId.bookname || "Book Image"} 
+                    style={{ width: '50px', height: '75px' }} 
+                  />
+                ) : (
+                  <span>No Image Available</span>
+                )}
               </td>
-              <td>{request.bookId.bookname}</td>
-              <td>{request.bookId.author}</td>
-              <td>{request.userId.name}</td>
+              <td>{request.bookId ? request.bookId.bookname : "Unknown Book"}</td>
+              <td>{request.bookId ? request.bookId.author : "Unknown Author"}</td>
+              <td>{request.userId ? request.userId.name : "Unknown User"}</td>
               <td className={`status ${request.status}`}>
                 {request.status}
               </td>

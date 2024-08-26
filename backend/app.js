@@ -6,6 +6,7 @@ const borrowRequestRoute = require('./routes/borrowRequestRoute');
 const userRoutes=require('./routes/userRout')
 const createAdminAccount=require('./scripts/admin')
 const loginRoute=require('./routes/login')
+const notificationRoute=require('./routes/notificationRoute')
 const app= express()
 const cors=require("cors")
 require("./connection/conn")
@@ -18,6 +19,7 @@ app.use('/auth',loginRoute)
 app.use(express.json())
 app.use("/api/v1",bookRoute)
 app.use("/api", borrowRequestRoute); 
+app.use('/api',notificationRoute);
 app.listen(1000,()=>{
     console.log('SERVER STARTED SUCCESSFULY ')
 })
