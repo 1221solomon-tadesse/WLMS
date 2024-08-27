@@ -36,7 +36,7 @@ const BookBorrow = () => {
       console.log('Borrow request created successfully:', response.data);
       alert("Book added successfully!");
       setLoading(false);
-      navigate('/confirmation', { state: { message: 'Borrow request submitted successfully!' } });
+      navigate('/Books', { state: { message: 'Borrow request submitted successfully!' } });
     } catch (error) {
       console.error('Error creating borrow request:', error.response || error.message);
       setError('Failed to submit borrow request. Please try again later.');
