@@ -35,7 +35,6 @@ const Update = () => {
 
     fetchData();
   }, [id]);
-
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -45,7 +44,7 @@ const Update = () => {
       ...data,
       [event.target.name]: event.target.value
     });
-  };
+  };   
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -118,10 +117,9 @@ const Update = () => {
                 onChange={handleInputChange}
                 placeholder="Enter the price of the book"
               />
-            </div>
-            
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-              <button type="submit" className="btn btn-primary">
+            </div>            
+            <div style={{ display: 'flex' , justifyContent: 'space-between', marginTop: '20px' }}>
+              <button type="submit"className="btn btn-primary">
                 Update Book
               </button>
               <button

@@ -1,0 +1,18 @@
+.main{
+  padding-top: 60px;
+}
+.book-section {
+    background-color: #f5f5f5;
+    padding: 10px 10;
+  }
+  
+  .book-section-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .book-section-title h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+  }

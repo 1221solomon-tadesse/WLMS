@@ -1,0 +1,104 @@
+.books-section {
+    padding: 20px;
+    
+  }
+  
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .book-card {
+    background-color: #DADBFB;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .book-image {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .book-cover {
+    max-width: 100px;
+    max-height: 150px;
+    height: auto;
+  }
+  
+  .book-info {
+    padding: 16px;
+  }
+  
+  .book-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .book-info p {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .book-info .description {
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .book-info .price {
+    font-weight: bold;
+  }
+  
+  .book-info .add-to-cart {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 767px) {
+    .book-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  
+    .book-image {
+      height: 150px;
+    }
+  
+    .book-cover {
+      max-width: 80px;
+      max-height: 120px;
+    }
+  
+    .book-info h3 {
+      font-size: 16px;
+    }
+  
+    .book-info p {
+      font-size: 12px;
+    }
+  }.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .update-btn {
+    margin-right: 0.5rem;
+    border-radius: 4px;
+    display: 'inline-block';
+  }
+  
+  .delete-btn {
+    background-color:ff4781;
+    margin-left: 0.5rem;
+    border-radius: 4px;
+  }

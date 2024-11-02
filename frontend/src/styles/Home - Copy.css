@@ -1,0 +1,107 @@
+/* Home Page */
+.home-page {
+  background-image: url('./logo1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  perspective: 1000px; /* Set perspective for 3D effect */
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 60px 20px;
+}
+
+/* Hero Title */
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0; /* Hide initially */
+  transform: rotateX(0deg) translateZ(-50px); /* Start with 3D rotation */
+  animation: fadeInUp 1.5s forwards, rotateIn 1.5s forwards; /* Apply animations */
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  font-weight: 300;
+  color: #eee;
+  opacity: 0; /* Hide initially */
+  transform: rotateX(0deg) translateZ(-50px); /* Start with 3D rotation */
+  animation: fadeInUp 1.5s 0.5s forwards, rotateIn 1.5s 0.5s forwards; /* Apply animations with delay */
+}
+
+/* View Book Button */
+.viewbook {
+  display: inline-block;
+  background-color: #769620;
+  border: none;
+  color: #fff;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.viewbook:hover {
+  background-color: #85a045;
+  transform: scale(1.05);
+}
+
+.viewbook:active {
+  background-color: #6b8e23;
+  transform: scale(0.95);
+}
+
+/* Keyframes for 3D Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotateX(90deg) translateZ(-100px); /* Rotate and move in */
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) translateZ(0); /* End at normal position */
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .viewbook {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}
+ 
