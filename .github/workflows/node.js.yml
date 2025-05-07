@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        os: [ubuntu-latest]
       fail-fast: false
 
     steps:
@@ -31,8 +30,7 @@ jobs:
 
     - name: Run backend linting
       working-directory: backend
-      run: |
-        npm run lint --if-present || (echo "Linting failed" && exit 1)
+      run: npm run lint || echo "Linting failed" && exit 1
 
     - name: Build backend
       working-directory: backend
@@ -40,8 +38,7 @@ jobs:
 
     - name: Run backend tests
       working-directory: backend
-      run: |
-        npm test -- --ci --coverage
+      run: npm test -- --ci --coverage
       env:
         NODE_ENV: test
         DB_URL: ${{ secrets.TEST_DB_URL }}
@@ -53,8 +50,7 @@ jobs:
 
     - name: Run frontend linting
       working-directory: frontend
-      run: |
-        npm run lint --if-present || (echo "Linting failed" && exit 1)
+      run: npm run lint || echo "Linting failed" && exit 1
 
     - name: Build frontend
       working-directory: frontend
@@ -62,26 +58,20 @@ jobs:
 
     - name: Run frontend tests
       working-directory: frontend
-      run: |
-        npm test -- --watchAll=false --ci --coverage
+      run: npm test -- --watchAll=false --ci --coverage
       env:
         CI: true
 
     # Artifacts and Reporting
     - name: Upload test results
-      uses: actions/upload-artifact@v3
       if: always()
+      uses: actions/upload-artifact@v4  # Updated to v4
       with:
-        name: test-results-${{ matrix.node-version }}
+        name: test-results-node-${{ matrix.node-version }}
         path: |
           backend/coverage
           frontend/coverage
-          **/test-results.xml
+          **/junit.xml
 
-    - name: Notify Slack on failure
-      if: failure()
-      uses: slackapi/slack-github-action@v1
-      with:
-        slack-message: '🚨 ${{ github.workflow }} failed for ${{ github.ref }}'
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+    - name: Show Node.js version
+      run: echo "Node.js version: $(node -v)"
