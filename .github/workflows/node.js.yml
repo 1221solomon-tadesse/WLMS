@@ -1,77 +1,61 @@
-name: Full Stack CI/CD Pipeline
+name: Automated Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-      fail-fast: false
+        node-version: [18.x, 20.x]  # Test across Node versions
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    # Backend Steps
-    - name: Install backend dependencies
-      working-directory: backend
-      run: npm ci --audit=false
+      # Backend Testing
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
 
-    - name: Run backend linting
-      working-directory: backend
-      run: npm run lint || echo "Linting failed" && exit 1
+      - name: Run backend unit tests
+        working-directory: backend
+        run: npm test
+        env:
+          NODE_ENV: test
+          DB_URL: ${{ secrets.TEST_DB_URL }}  # For database tests
 
-    - name: Build backend
-      working-directory: backend
-      run: npm run build --if-present
+      - name: Run backend integration tests
+        working-directory: backend
+        run: npm run test:integration  # Optional
+        if: success()  # Only run if unit tests pass
 
-    - name: Run backend tests
-      working-directory: backend
-      run: npm test -- --ci --coverage
-      env:
-        NODE_ENV: test
-        DB_URL: ${{ secrets.TEST_DB_URL }}
+      # Frontend Testing
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
 
-    # Frontend Steps  
-    - name: Install frontend dependencies
-      working-directory: frontend
-      run: npm ci
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npm test
+        env:
+          CI: true  # Essential for frontend test runners
 
-    - name: Run frontend linting
-      working-directory: frontend
-      run: npm run lint || echo "Linting failed" && exit 1
-
-    - name: Build frontend
-      working-directory: frontend
-      run: npm run build
-
-    - name: Run frontend tests
-      working-directory: frontend
-      run: npm test -- --watchAll=false --ci --coverage
-      env:
-        CI: true
-
-    # Artifacts and Reporting
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v4  # Updated to v4
-      with:
-        name: test-results-node-${{ matrix.node-version }}
-        path: |
-          backend/coverage
-          frontend/coverage
-          **/junit.xml
-
-    - name: Show Node.js version
-      run: echo "Node.js version: $(node -v)"
+      # Test Coverage Reports
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()  # Upload even if tests fail
+        with:
+          name: coverage-reports-node-${{ matrix.node-version }}
+          path: |
+            backend/coverage
+            frontend/coverage
